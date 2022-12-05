@@ -65,8 +65,29 @@ fun listArtists(){
     println(artistAPI.listAllArtists())
 }
 
-fun updateArtist(){
-    logger.info { "updateArtist() function invoked" }
+fun updateArtist() {
+    //logger.info { "updateArtists() function invoked" }
+    listArtists()
+    if (artistAPI.numberOfArtists() > 0) {
+        //only ask the user to choose the artist if artists exist
+        val indexToUpdate = readNextInt("Enter the index of the artist to update: ")
+        if (artistAPI.isValidIndex(indexToUpdate)) {
+            val artistName = readNextLine("Enter the name of the artist: ")
+            val artistAge = readNextInt("Enter the age of the artist: ")
+            val artistCountry = readNextLine("Enter the country the artist is from: ")
+            val artistMovement = readNextLine("Enter the movement the artist is associated with: ")
+            val artistPopularity = readNextInt("Enter the popularity of the artist: ")
+
+            //pass the index of the artist and the new artist details to artistAPI for updating and check for success.
+            if (artistAPI.updateArtist(indexToUpdate, Artist(artistName, artistAge, artistCountry, artistMovement, artistPopularity, false))){
+                println("Update Successful")
+            } else {
+                println("Update Failed")
+            }
+        } else {
+            println("There are no artists for this index number")
+        }
+    }
 }
 
 fun deleteArtist(){
