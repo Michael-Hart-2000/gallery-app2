@@ -51,7 +51,7 @@ fun addArtist(){
     val artistCountry = readNextLine("Enter the country the artist is from: ")
     val artistMovement = readNextLine("Enter the art movement the artist is associated with: ")
     val artistPopularity = readNextInt("Enter the popularity of the artist (1-low, 2, 3, 4, 5-high): ")
-    val isAdded = artistAPI.add(Artist(artistName, artistAge, artistCountry,artistMovement,artistPopularity, false))
+    val isAdded = artistAPI.add(Artist(artistName, artistAge, artistCountry,artistMovement,artistPopularity, true))
 
     if (isAdded) {
         println("Added Successfully")

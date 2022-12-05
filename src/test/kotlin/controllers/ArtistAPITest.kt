@@ -136,5 +136,45 @@ class ArtistAPITest {
         assertFalse(deceasedArtistsString.contains("Rembrandt Van Rijn"))
         assertFalse(deceasedArtistsString.contains("Salvador Dali"))
     }
+
+        @Test
+        fun `listArtistsBySelectedPopularity returns No Artists when ArrayList is empty`() {
+            assertEquals(0, emptyArtists!!.numberOfArtists())
+            assertTrue(emptyArtists!!.listArtistsBySelectedPopularity(1).lowercase().contains("no artists")
+            )
+        }
+
+        @Test
+        fun `listArtistsBySelectedPopularity returns no artists when no artists of that popularity exist`() {
+            //Popularity 1 (1 artist), 2 (artist), 3 (1 artist). 4 (2 artists), 5 (1 artist)
+            assertEquals(5, populatedArtists!!.numberOfArtists())
+            val popularity2String = populatedArtists!!.listArtistsBySelectedPopularity(2).lowercase()
+            assertTrue(popularity2String.contains("no artists"))
+            assertTrue(popularity2String.contains("2"))
+        }
+
+        @Test
+        fun `listArtistsBySelectedPopularity returns all artists that match that popularity when artists of that popularity exist`() {
+            //Popularity 1 (1 artist), 2 (none), 3 (1 artist). 4 (2 artists), 5 (1 artist)
+            assertEquals(5, populatedArtists!!.numberOfArtists())
+            val popularity1String = populatedArtists!!.listArtistsBySelectedPopularity(1).lowercase()
+            assertFalse(popularity1String.contains("1 artist"))
+            assertFalse(popularity1String.contains("popularity 1"))
+            assertFalse(popularity1String.contains("Pablo Picasso"))
+            assertFalse(popularity1String.contains("Vincent Van Gough"))
+            assertFalse(popularity1String.contains("Leonardo Da Vinci"))
+            assertFalse(popularity1String.contains("Rembrandt Van Rijn"))
+            assertFalse(popularity1String.contains("Salvador Dali"))
+
+
+            val popularity4String = populatedArtists!!.listArtistsBySelectedPopularity(4).lowercase(Locale.getDefault())
+            assertFalse(popularity4String.contains("2 artist"))
+            assertFalse(popularity4String.contains("popularity 4"))
+            assertFalse(popularity4String.contains("Pablo Picasso"))
+            assertFalse(popularity4String.contains("Vincent Van Gough"))
+            assertFalse(popularity4String.contains("Leonardo Da Vinci"))
+            assertFalse(popularity4String.contains("Rembrandt Van Rijn"))
+            assertFalse(popularity4String.contains("Salvador Dali"))
+        }
     }
 }
