@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import java.util.*
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 
@@ -21,20 +22,20 @@ class ArtistAPITest {
 
     @BeforeEach
     fun setup() {
-        PabloPicasso = Artist("Pablo Picasso", 91, "Spain", artistMovement = "Cubism", artistPopularity = 5, false)
+        PabloPicasso = Artist("Pablo Picasso", 91, "Spain", artistMovement = "Cubism", artistPopularity = 5, true)
         VincentVanGough = Artist(
             "Vincent Van Gough",
             37,
             "Netherlands",
             artistMovement = "Post-Impressionism",
             artistPopularity = 5,
-            false
+            true
         )
         LeonardoDaVinci =
-            Artist("Leonardo Da Vinci", 67, "Italy", artistMovement = "Renaissance", artistPopularity = 5, false)
+            Artist("Leonardo Da Vinci", 67, "Italy", artistMovement = "Renaissance", artistPopularity = 5, true)
         RembrandtVanRijn =
-            Artist("Rembrandt Van Rijn", 63, "Netherlands", artistMovement = "Baroque", artistPopularity = 5, false)
-        SalvadorDali = Artist("Salvador Dali", 84, "Spain", artistMovement = "Surrealism", artistPopularity = 5, false)
+            Artist("Rembrandt Van Rijn", 63, "Netherlands", artistMovement = "Baroque", artistPopularity = 5, true)
+        SalvadorDali = Artist("Salvador Dali", 84, "Spain", artistMovement = "Surrealism", artistPopularity = 5, true)
 
         //adding 5 Artists to the artists api
         populatedArtists!!.add(PabloPicasso!!)
@@ -60,7 +61,7 @@ class ArtistAPITest {
         @Test
         fun `adding an Artist to a populated list adds to ArrayList`() {
             val newArtist =
-                Artist("Study Lambdas", 1, "Spain", artistMovement = "Surrealism", artistPopularity = 5, false)
+                Artist("Study Lambdas", 1, "Spain", artistMovement = "Surrealism", artistPopularity = 5, true)
             assertEquals(5, populatedArtists!!.numberOfArtists())
             assertTrue(populatedArtists!!.add(newArtist))
             assertEquals(6, populatedArtists!!.numberOfArtists())
@@ -70,7 +71,7 @@ class ArtistAPITest {
         @Test
         fun `adding an Artist to an empty list adds to ArrayList`() {
             val newArtist =
-                Artist("Study Lambdas", 1, "Spain", artistMovement = "Surrealism", artistPopularity = 5, false)
+                Artist("Study Lambdas", 1, "Spain", artistMovement = "Surrealism", artistPopularity = 5, true)
             assertEquals(0, emptyArtists!!.numberOfArtists())
             assertTrue(emptyArtists!!.add(newArtist))
             assertEquals(1, emptyArtists!!.numberOfArtists())
@@ -96,5 +97,44 @@ class ArtistAPITest {
             assertFalse(artistsString.contains("Rembrandt Van Rijn"))
             assertFalse(artistsString.contains("Salvador Dali"))
         }
+
+
+    @Test
+    fun `listLivingArtists returns no living aritsts stored when ArrayList is empty`() {
+        assertEquals(0, emptyArtists!!.numberOfLivingArtists())
+        assertTrue(
+            emptyArtists!!.listLivingArtists().lowercase().contains("no living artists")
+        )
+    }
+
+    @Test
+    fun `listLivingArtists returns living artists when ArrayList has living artists stored`() {
+        assertEquals(0, populatedArtists!!.numberOfLivingArtists())
+        val livingArtistsString = populatedArtists!!.listLivingArtists().lowercase()
+        assertFalse(livingArtistsString.contains("Pablo Picasso"))
+        assertFalse(livingArtistsString.contains("Vincent Van Gough"))
+        assertFalse(livingArtistsString.contains("Leonardo Da Vinci"))
+        assertFalse(livingArtistsString.contains("Rembrandt Van Rijn"))
+        assertFalse(livingArtistsString.contains("Salvador Dali"))
+    }
+
+    @Test
+    fun `listDeceasedArtists returns no deceased artists when ArrayList is empty`() {
+        assertEquals(0, emptyArtists!!.numberOfDeceasedArtists())
+        assertTrue(
+            emptyArtists!!.listDeceasedArtists().lowercase().contains("no deceased artists")
+        )
+    }
+
+    @Test
+    fun `listDeceasedArtists returns deceased artists when ArrayList has deceased artists stored`() {
+        assertEquals(5, populatedArtists!!.numberOfDeceasedArtists())
+        val deceasedArtistsString = populatedArtists!!.listDeceasedArtists().lowercase(Locale.getDefault())
+        assertFalse(deceasedArtistsString.contains("Pablo Picasso"))
+        assertFalse(deceasedArtistsString.contains("Vincent Van Gough"))
+        assertFalse(deceasedArtistsString.contains("Leonardo Da Vinci"))
+        assertFalse(deceasedArtistsString.contains("Rembrandt Van Rijn"))
+        assertFalse(deceasedArtistsString.contains("Salvador Dali"))
+    }
     }
 }

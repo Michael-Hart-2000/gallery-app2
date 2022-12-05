@@ -6,5 +6,5 @@ data class Artist(
     val artistCountry: String,
     val artistMovement: String,
     val artistPopularity: Int,
-    val isArtistAlive: Boolean){
+    val isArtistDeceased: Boolean){
 }
