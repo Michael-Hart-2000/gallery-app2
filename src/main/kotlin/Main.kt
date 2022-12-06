@@ -3,12 +3,14 @@ import models.Artist
 import utils.ScannerInput
 import java.lang.System.exit
 import mu.KotlinLogging
+import persistence.JSONSerializer
 import persistence.XMLSerializer
 import utils.ScannerInput.readNextInt
 import utils.ScannerInput.readNextLine
 import java.io.File
 
-private val artistAPI = ArtistAPI(XMLSerializer(File("artists.xml")))
+//private val artistAPI = ArtistAPI(XMLSerializer(File("artists.xml")))
+private val artistAPI = ArtistAPI(JSONSerializer(File("artists.json")))
 private val logger = KotlinLogging.logger {}
 
 
