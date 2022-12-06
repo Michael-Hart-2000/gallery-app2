@@ -8,5 +8,21 @@
       <artistPopularity>5</artistPopularity>
       <isArtistDeceased>true</isArtistDeceased>
     </models.Artist>
+    <models.Artist>
+      <artistName>Salvador Dali</artistName>
+      <artistAge>84</artistAge>
+      <artistCountry>Spain</artistCountry>
+      <artistMovement>Surrealism</artistMovement>
+      <artistPopularity>5</artistPopularity>
+      <isArtistDeceased>true</isArtistDeceased>
+    </models.Artist>
+    <models.Artist>
+      <artistName>Vincent Van Gough</artistName>
+      <artistAge>37</artistAge>
+      <artistCountry>Netherlands</artistCountry>
+      <artistMovement>Post-Impressionism</artistMovement>
+      <artistPopularity>5</artistPopularity>
+      <isArtistDeceased>true</isArtistDeceased>
+    </models.Artist>
   </list>
 </object-stream>
