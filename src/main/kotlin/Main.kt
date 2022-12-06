@@ -29,6 +29,7 @@ fun mainMenu() : Int {
          > |   2)  List all artists         |
          > |   3)  Update an artist         |
          > |   4)  Delete an artist         |
+         > |   5)  Archive an artist        |
          > |   20) Save artists             |
          > |   21) Load artists             |
          > ----------------------------------
@@ -45,6 +46,7 @@ fun runMenu() {
             2  -> listArtists()
             3  -> updateArtist()
             4  -> deleteArtist()
+            5  -> archiveArtist()
             20  -> save()
             21  -> load()
             0  -> exitApp()
@@ -111,6 +113,24 @@ fun deleteArtist(){
             println("Delete Successful! Deleted artist: ${artistToDelete.artistName}")
         } else {
             println("Delete NOT Successful")
+        }
+    }
+}
+
+fun listLivingArtists() {
+    println(artistAPI.listLivingArtists())
+}
+
+fun archiveArtist() {
+    listLivingArtists()
+    if (artistAPI.numberOfLivingArtists() > 0) {
+        //only ask the user to choose the artist to archive if living artists exist
+        val indexToArchive = readNextInt("Enter the index of the artist to archive: ")
+        //pass the index of the artist to ArtistAPI for archiving and check for success.
+        if (artistAPI.archiveArtist(indexToArchive)) {
+            println("Archive Successful!")
+        } else {
+            println("Archive NOT Successful")
         }
     }
 }

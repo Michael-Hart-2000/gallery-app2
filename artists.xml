@@ -17,7 +17,7 @@
       <isArtistDeceased>true</isArtistDeceased>
     </models.Artist>
     <models.Artist>
-      <artistName>Vincent Van Gough</artistName>
+      <artistName>Vincent Van Gogh</artistName>
       <artistAge>37</artistAge>
       <artistCountry>Netherlands</artistCountry>
       <artistMovement>Post-Impressionism</artistMovement>

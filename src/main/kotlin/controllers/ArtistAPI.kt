@@ -130,6 +130,17 @@ class ArtistAPI(serializerType: Serializer) {
         return false
     }
 
+    fun archiveArtist(indexToArchive: Int): Boolean {
+        if (isValidIndex(indexToArchive)) {
+            val artistToArchive = artists[indexToArchive]
+            if (!artistToArchive.isArtistDeceased) {
+                artistToArchive.isArtistDeceased = true
+                return true
+            }
+        }
+        return false
+    }
+
     fun isValidIndex(index: Int) :Boolean{
         return isValidListIndex(index, artists);
     }
