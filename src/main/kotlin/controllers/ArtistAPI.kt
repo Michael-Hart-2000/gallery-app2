@@ -21,6 +21,56 @@ class ArtistAPI {
         }
     }
 
+    fun listLivingArtists(): String {
+        return if (numberOfLivingArtists() == 0) {
+            "No living artists stored"
+        } else {
+            var listOfLivingArtists = ""
+            for (artist in artists) {
+                if (!artist.isArtistDeceased) {
+                    listOfLivingArtists += "${artists.indexOf(artist)}: $artist \n"
+                }
+            }
+            listOfLivingArtists
+        }
+    }
+
+    fun listDeceasedArtists(): String {
+        return if (numberOfDeceasedArtists() == 0) {
+            "No deceased artists stored"
+        } else {
+            var listOfDeceasedArtists = ""
+            for (artist in artists) {
+                if (artist.isArtistDeceased) {
+                    listOfDeceasedArtists += "${artists.indexOf(artist)}: $artist \n"
+                }
+            }
+            listOfDeceasedArtists
+        }
+    }
+
+    fun numberOfDeceasedArtists(): Int {
+        //helper method to determine how many deceased artists there are
+        var counter = 0
+        for (artist in artists) {
+            if (artist.isArtistDeceased) {
+                counter++
+            }
+        }
+        return counter
+    }
+
+    fun numberOfLivingArtists(): Int {
+        //helper method to determine how many living artists there are
+        var counter = 0
+        for (artist in artists) {
+            if (!artist.isArtistDeceased) {
+                counter++
+            }
+        }
+        return counter
+    }
+
     fun numberOfArtists(): Int {
         return artists.size
     }
