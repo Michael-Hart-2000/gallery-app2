@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import persistence.XMLSerializer
+import java.io.File
 import java.util.*
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -18,8 +20,8 @@ class ArtistAPITest {
     private var LeonardoDaVinci: Artist? = null
     private var RembrandtVanRijn: Artist? = null
     private var SalvadorDali: Artist? = null
-    private var populatedArtists: ArtistAPI? = ArtistAPI()
-    private var emptyArtists: ArtistAPI? = ArtistAPI()
+    private var populatedArtists: ArtistAPI? = ArtistAPI(XMLSerializer(File("artists.xml")))
+    private var emptyArtists: ArtistAPI? = ArtistAPI(XMLSerializer(File("artist.xml")))
 
     @BeforeEach
     fun setup() {

@@ -3,11 +3,14 @@ import models.Artist
 import utils.ScannerInput
 import java.lang.System.exit
 import mu.KotlinLogging
+import persistence.XMLSerializer
 import utils.ScannerInput.readNextInt
 import utils.ScannerInput.readNextLine
+import java.io.File
 
+private val artistAPI = ArtistAPI(XMLSerializer(File("artists.xml")))
 private val logger = KotlinLogging.logger {}
-private val artistAPI = ArtistAPI()
+
 
 
 fun main(args: Array<String>) {
@@ -20,10 +23,12 @@ fun mainMenu() : Int {
          > |          GALLERY APP           |
          > ----------------------------------
          > | ARTIST MENU                    |
-         > |   1) Add an artist             |
-         > |   2) List all artists          |
-         > |   3) Update an artist          |
-         > |   4) Delete an artist          |
+         > |   1)  Add an artist            |
+         > |   2)  List all artists         |
+         > |   3)  Update an artist         |
+         > |   4)  Delete an artist         |
+         > |   20) Save artists             |
+         > |   21) Load artists             |
          > ----------------------------------
          > |   0) Exit                      |
          > ----------------------------------
@@ -38,6 +43,8 @@ fun runMenu() {
             2  -> listArtists()
             3  -> updateArtist()
             4  -> deleteArtist()
+            20  -> save()
+            21  -> load()
             0  -> exitApp()
             else -> println("Invalid option entered: ${option}")
         }
@@ -103,6 +110,22 @@ fun deleteArtist(){
         } else {
             println("Delete NOT Successful")
         }
+    }
+}
+
+fun save() {
+    try {
+        artistAPI.store()
+    } catch (e: Exception) {
+        System.err.println("Error writing to file: $e")
+    }
+}
+
+fun load() {
+    try {
+        artistAPI.load()
+    } catch (e: Exception) {
+        System.err.println("Error reading from file: $e")
     }
 }
 

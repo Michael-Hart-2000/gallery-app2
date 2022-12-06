@@ -1,0 +1,12 @@
+<object-stream>
+  <list>
+    <models.Artist>
+      <artistName>Pablo Picasso</artistName>
+      <artistAge>91</artistAge>
+      <artistCountry>Spain</artistCountry>
+      <artistMovement>Cubism</artistMovement>
+      <artistPopularity>5</artistPopularity>
+      <isArtistDeceased>true</isArtistDeceased>
+    </models.Artist>
+  </list>
+</object-stream>

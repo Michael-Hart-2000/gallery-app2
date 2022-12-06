@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="controllers.ArtistAPITest$ListArtists" tests="9" skipped="0" failures="0" errors="0" timestamp="2022-12-06T07:48:48" hostname="DESKTOP-41QCBQB" time="0.037">
+  <properties/>
+  <testcase name="listArtistsBySelectedPopularity returns No Artists when ArrayList is empty()" classname="controllers.ArtistAPITest$ListArtists" time="0.011"/>
+  <testcase name="listAllArtists returns Artists when ArrayList has artists stored()" classname="controllers.ArtistAPITest$ListArtists" time="0.004"/>
+  <testcase name="listLivingArtists returns living artists when ArrayList has living artists stored()" classname="controllers.ArtistAPITest$ListArtists" time="0.001"/>
+  <testcase name="listDeceasedArtists returns no deceased artists when ArrayList is empty()" classname="controllers.ArtistAPITest$ListArtists" time="0.001"/>
+  <testcase name="listArtistsBySelectedPopularity returns no artists when no artists of that popularity exist()" classname="controllers.ArtistAPITest$ListArtists" time="0.001"/>
+  <testcase name="listDeceasedArtists returns deceased artists when ArrayList has deceased artists stored()" classname="controllers.ArtistAPITest$ListArtists" time="0.002"/>
+  <testcase name="listAllArtists returns No Artists Stored message when ArrayList is empty()" classname="controllers.ArtistAPITest$ListArtists" time="0.003"/>
+  <testcase name="listArtistsBySelectedPopularity returns all artists that match that popularity when artists of that popularity exist()" classname="controllers.ArtistAPITest$ListArtists" time="0.001"/>
+  <testcase name="listLivingArtists returns no living aritsts stored when ArrayList is empty()" classname="controllers.ArtistAPITest$ListArtists" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
