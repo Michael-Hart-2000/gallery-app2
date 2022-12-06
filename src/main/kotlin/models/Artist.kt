@@ -1,10 +1,10 @@
 package models
 
 data class Artist(
-    val artistName: String,
-    val artistAge: Int,
-    val artistCountry: String,
-    val artistMovement: String,
-    val artistPopularity: Int,
-    val isArtistDeceased: Boolean){
+    var artistName: String,
+    var artistAge: Int,
+    var artistCountry: String,
+    var artistMovement: String,
+    var artistPopularity: Int,
+    var isArtistDeceased: Boolean){
 }

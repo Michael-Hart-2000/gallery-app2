@@ -198,4 +198,29 @@ class ArtistAPITest {
             assertEquals(3, populatedArtists!!.numberOfArtists())
         }
     }
+
+    @Nested
+    inner class UpdateArtists {
+        @Test
+        fun `updating an artist that does not exist returns false`(){
+            assertFalse(populatedArtists!!.updateArtist(6, Artist("Leonardo Da Vinci", 67, "Italy", artistMovement = "Renaissance", artistPopularity = 5, true)))
+            assertFalse(populatedArtists!!.updateArtist(-1, Artist("Leonardo Da Vinci", 67, "Italy", artistMovement = "Renaissance", artistPopularity = 5, true)))
+            assertFalse(emptyArtists!!.updateArtist(0, Artist("Leonardo Da Vinci", 67, "Italy", artistMovement = "Renaissance", artistPopularity = 5, true)))
+        }
+
+        @Test
+        fun `updating an artist that exists returns true and updates`() {
+            //check artist 5 exists and check the contents
+            assertEquals(SalvadorDali, populatedArtists!!.findArtist(4))
+            assertEquals("Salvador Dali", populatedArtists!!.findArtist(4)!!.artistName)
+            assertEquals(5, populatedArtists!!.findArtist(4)!!.artistPopularity)
+            assertEquals("Spain", populatedArtists!!.findArtist(4)!!.artistCountry)
+
+            //update artist 5 with new information and ensure contents updated successfully
+            assertTrue(populatedArtists!!.updateArtist(4, Artist(artistName="Salvador Dali", artistAge=84, artistCountry="Spain", artistMovement="Surrealism", artistPopularity=5, isArtistDeceased=true)))
+            assertEquals("Salvador Dali", populatedArtists!!.findArtist(4)!!.artistName)
+            assertEquals(5, populatedArtists!!.findArtist(4)!!.artistPopularity)
+            assertEquals("Spain", populatedArtists!!.findArtist(4)!!.artistCountry)
+        }
+    }
 }

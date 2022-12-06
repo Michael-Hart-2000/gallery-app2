@@ -107,6 +107,30 @@ class ArtistAPI {
         } else null
     }
 
+    fun updateArtist(indexToUpdate: Int, artist: Artist?): Boolean {
+        //find the artist object by the index number
+        val foundArtist = findArtist(indexToUpdate)
+
+        //if the artist exists, use the artist details passed as parameters to update the found artist in the ArrayList.
+        if ((foundArtist != null) && (artist != null)) {
+            foundArtist.artistName = artist.artistName
+            foundArtist.artistPopularity = artist.artistPopularity
+            foundArtist.artistAge = artist.artistAge
+            foundArtist.artistCountry = artist.artistCountry
+            foundArtist.artistMovement = artist.artistMovement
+            foundArtist.isArtistDeceased = artist.isArtistDeceased
+
+            return true
+        }
+
+        //if the artist was not found, return false, indicating that the update was not successful
+        return false
+    }
+
+    fun isValidIndex(index: Int) :Boolean{
+        return isValidListIndex(index, artists);
+    }
+
     fun numberOfArtists(): Int {
         return artists.size
     }
