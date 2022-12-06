@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="controllers.ArtistAPITest$UpdateArtists" tests="2" skipped="0" failures="0" errors="0" timestamp="2022-12-06T07:59:34" hostname="DESKTOP-41QCBQB" time="0.007">
+<testsuite name="controllers.ArtistAPITest$UpdateArtists" tests="2" skipped="0" failures="0" errors="0" timestamp="2022-12-06T08:20:39" hostname="DESKTOP-41QCBQB" time="0.007">
   <properties/>
   <testcase name="updating an artist that does not exist returns false()" classname="controllers.ArtistAPITest$UpdateArtists" time="0.001"/>
   <testcase name="updating an artist that exists returns true and updates()" classname="controllers.ArtistAPITest$UpdateArtists" time="0.002"/>
