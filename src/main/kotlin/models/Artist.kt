@@ -9,7 +9,8 @@ data class Artist(
     var artistMovement: String,
     var artistPopularity: Int,
     var isArtistDeceased: Boolean,
-    var artefacts : MutableSet<Artefact> = mutableSetOf()) {
+    var artefacts: MutableSet<Artefact> = mutableSetOf()
+) {
 
     private var lastArtefactId = 0
     private fun getArtefactId() = lastArtefactId++
@@ -21,32 +22,32 @@ data class Artist(
 
     fun numberOfArtefacts() = artefacts.size
 
-    fun findOne(id: Int): Artefact?{
-        return artefacts.find{ artefact -> artefact.artefactId == id }
+    fun findOne(id: Int): Artefact? {
+        return artefacts.find { artefact -> artefact.artefactId == id }
     }
 
     fun delete(id: Int): Boolean {
-        return artefacts.removeIf { artefact -> artefact.artefactId == id}
+        return artefacts.removeIf { artefact -> artefact.artefactId == id }
     }
 
-    fun update(id: Int, newArtefact : Artefact): Boolean {
+    fun update(id: Int, newArtefact: Artefact): Boolean {
         val foundArtefact = findOne(id)
 
-        //if the object exists, use the details passed in the newArtefact parameter to
-        //update the found object in the Set
-        if (foundArtefact != null){
+        // if the object exists, use the details passed in the newArtefact parameter to
+        // update the found object in the Set
+        if (foundArtefact != null) {
             foundArtefact.artefactId = newArtefact.artefactId
             foundArtefact.isArtefactSold = newArtefact.isArtefactSold
             return true
         }
 
-        //if the object was not found, return false, indicating that the update was not successful
+        // if the object was not found, return false, indicating that the update was not successful
         return false
     }
 
     fun listArtefacts() =
-        if (artefacts.isEmpty())  "\tNO ARTEFACTS ADDED"
-        else  Utilities.formatSetString(artefacts)
+        if (artefacts.isEmpty()) "\tNO ARTEFACTS ADDED"
+        else Utilities.formatSetString(artefacts)
 
     override fun toString(): String {
         val archived = if (isArtistDeceased) 'Y' else 'N'
@@ -61,7 +62,6 @@ data class Artist(
                 }
             }
         }
-        return true //an artist with empty artefacts can be archived, or all artefacts are complete
+        return true // an artist with empty artefacts can be archived, or all artefacts are complete
     }
-
 }
