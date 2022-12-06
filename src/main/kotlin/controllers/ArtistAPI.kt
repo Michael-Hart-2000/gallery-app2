@@ -23,19 +23,9 @@ class ArtistAPI(serializerType: Serializer) {
         else artists.joinToString (separator = "\n") { artist ->
             artists.indexOf(artist).toString() + ": " + artist.toString() }
 
-    fun listLivingArtists(): String {
-        return if (numberOfLivingArtists() == 0) {
-            "No living artists stored"
-        } else {
-            var listOfLivingArtists = ""
-            for (artist in artists) {
-                if (!artist.isArtistDeceased) {
-                    listOfLivingArtists += "${artists.indexOf(artist)}: $artist \n"
-                }
-            }
-            listOfLivingArtists
-        }
-    }
+    fun listLivingArtists(): String =
+        if  (numberOfLivingArtists() == 0)  "No living artists stored"
+        else formatListString(artists.filter { artist -> !artist.isArtistDeceased})
 
     fun listDeceasedArtists(): String =
         if  (numberOfDeceasedArtists() == 0) "No deceased artists stored"
