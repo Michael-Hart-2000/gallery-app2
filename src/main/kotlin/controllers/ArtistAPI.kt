@@ -3,6 +3,10 @@ package controllers
 import models.Artist
 import persistence.Serializer
 
+val yellow = "\u001B[33m"
+val red = "\u001b[31m"
+val green = "\u001B[32m"
+
 class ArtistAPI(serializerType: Serializer) {
 
     private var serializer: Serializer = serializerType
@@ -19,15 +23,15 @@ class ArtistAPI(serializerType: Serializer) {
     }
 
     fun listAllArtists(): String =
-        if  (artists.isEmpty()) "No artists stored"
+        if  (artists.isEmpty()) red + "No artists stored"
         else formatListString(artists)
 
     fun listLivingArtists(): String =
-        if  (numberOfLivingArtists() == 0)  "No living artists stored"
+        if  (numberOfLivingArtists() == 0)red +  "No living artists stored"
         else formatListString(artists.filter { artist -> !artist.isArtistDeceased})
 
     fun listDeceasedArtists(): String =
-        if  (numberOfDeceasedArtists() == 0) "No deceased artists stored"
+        if  (numberOfDeceasedArtists() == 0)red + "No deceased artists stored"
         else formatListString(artists.filter { artist -> artist.isArtistDeceased})
 
     fun numberOfDeceasedArtists(): Int = artists.count { artist: Artist -> artist.isArtistDeceased }
@@ -35,10 +39,10 @@ class ArtistAPI(serializerType: Serializer) {
     fun numberOfLivingArtists(): Int = artists.count{artist: Artist -> !artist.isArtistDeceased}
 
     fun listArtistsBySelectedPopularity(popularity: Int): String =
-        if (artists.isEmpty()) "No artists stored"
+        if (artists.isEmpty())red + "No artists stored"
         else {
             val listOfArtists = formatListString(artists.filter{ artist -> artist.artistPopularity == popularity})
-            if (listOfArtists.equals("")) "No artists with popularity: $popularity"
+            if (listOfArtists.equals(""))red + "No artists with popularity: $popularity"
             else "${numberOfArtistsByPopularity(popularity)} artists with popularity $popularity: $listOfArtists"
         }
 

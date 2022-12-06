@@ -13,6 +13,9 @@ import java.io.File
 private val artistAPI = ArtistAPI(JSONSerializer(File("artists.json")))
 private val logger = KotlinLogging.logger {}
 
+val yellow = "\u001B[33m"
+val red = "\u001b[31m"
+val green = "\u001B[32m"
 
 
 fun main(args: Array<String>) {
@@ -20,7 +23,7 @@ fun main(args: Array<String>) {
 }
 
 fun mainMenu() : Int {
-    return ScannerInput.readNextInt(""" 
+    return ScannerInput.readNextInt( yellow +""" 
          > ----------------------------------
          > |          GALLERY APP           |
          > ----------------------------------
@@ -31,9 +34,9 @@ fun mainMenu() : Int {
          > |   4)  Delete an artist         |
          > |   5)  Archive an artist        |
          > |   6)  Search artist(by Name)   |
+         > ----------------------------------
          > |   20) Save artists             |
          > |   21) Load artists             |
-         > ----------------------------------
          > |   0) Exit                      |
          > ----------------------------------
          > ==>> """.trimMargin(">"))
@@ -52,30 +55,30 @@ fun runMenu() {
             20  -> save()
             21  -> load()
             0  -> exitApp()
-            else -> println("Invalid option entered: ${option}")
+            else -> println( red +"Invalid option entered: ${option}")
         }
     } while (true)
 }
 
 fun addArtist(){
     //logger.info { "addArtist() function invoked" }
-    val artistName = readNextLine("Enter the name of the artist: ")
-    val artistAge = readNextInt("Enter the age of the artist: ")
-    val artistCountry = readNextLine("Enter the country the artist is from: ")
-    val artistMovement = readNextLine("Enter the art movement the artist is associated with: ")
-    val artistPopularity = readNextInt("Enter the popularity of the artist (1-low, 2, 3, 4, 5-high): ")
+    val artistName = readNextLine(green +"Enter the name of the artist: ")
+    val artistAge = readNextInt(green +"Enter the age of the artist: ")
+    val artistCountry = readNextLine(green +"Enter the country the artist is from: ")
+    val artistMovement = readNextLine(green +"Enter the art movement the artist is associated with: ")
+    val artistPopularity = readNextInt(green +"Enter the popularity of the artist (1-low, 2, 3, 4, 5-high): ")
     val isAdded = artistAPI.add(Artist(artistName, artistAge, artistCountry,artistMovement,artistPopularity, true))
 
     if (isAdded) {
-        println("Added Successfully")
+        println(green +"Added Successfully")
     } else {
-        println("Add Failed")
+        println(red +"Add Failed")
     }
 }
 
 fun listArtists() {
     if (artistAPI.numberOfArtists() > 0) {
-        val option = readNextInt(
+        val option = readNextInt( yellow +
             """
                   > --------------------------------
                   > |   1) View ALL artists        |
@@ -88,10 +91,10 @@ fun listArtists() {
             1 -> listAllArtists();
             2 -> listLivingArtists();
             3 -> listDeceasedArtists();
-            else -> println("Invalid option entered: " + option);
+            else -> println( red +"Invalid option entered: " + option);
         }
     } else {
-        println("Option Invalid - No artists stored");
+        println(red +"Option Invalid - No artists stored");
     }
 }
 
@@ -108,22 +111,22 @@ fun updateArtist() {
     listArtists()
     if (artistAPI.numberOfArtists() > 0) {
         //only ask the user to choose the artist if artists exist
-        val indexToUpdate = readNextInt("Enter the index of the artist to update: ")
+        val indexToUpdate = readNextInt(green +"Enter the index of the artist to update: ")
         if (artistAPI.isValidIndex(indexToUpdate)) {
-            val artistName = readNextLine("Enter the name of the artist: ")
-            val artistAge = readNextInt("Enter the age of the artist: ")
-            val artistCountry = readNextLine("Enter the country the artist is from: ")
-            val artistMovement = readNextLine("Enter the movement the artist is associated with: ")
-            val artistPopularity = readNextInt("Enter the popularity of the artist: ")
+            val artistName = readNextLine(green +"Enter the name of the artist: ")
+            val artistAge = readNextInt(green +"Enter the age of the artist: ")
+            val artistCountry = readNextLine(green +"Enter the country the artist is from: ")
+            val artistMovement = readNextLine(green +"Enter the movement the artist is associated with: ")
+            val artistPopularity = readNextInt(green +"Enter the popularity of the artist: ")
 
             //pass the index of the artist and the new artist details to artistAPI for updating and check for success.
             if (artistAPI.updateArtist(indexToUpdate, Artist(artistName, artistAge, artistCountry, artistMovement, artistPopularity, false))){
-                println("Update Successful")
+                println(green +"Update Successful")
             } else {
-                println("Update Failed")
+                println(red +"Update Failed")
             }
         } else {
-            println("There are no artists for this index number")
+            println(red +"There are no artists for this index number")
         }
     }
 }
@@ -133,13 +136,13 @@ fun deleteArtist(){
     listArtists()
     if (artistAPI.numberOfArtists() > 0) {
         //only ask the user to choose the artist to remove if artists exist
-        val indexToDelete = readNextInt("Enter the index of the artist to delete: ")
+        val indexToDelete = readNextInt(green +"Enter the index of the artist to delete: ")
         //pass the index of the artist to ArtistAPI for deleting and check for success.
         val artistToDelete = artistAPI.deleteArtist(indexToDelete)
         if (artistToDelete != null) {
-            println("Delete Successful! Deleted artist: ${artistToDelete.artistName}")
+            println(green +"Delete Successful! Deleted artist: ${artistToDelete.artistName}")
         } else {
-            println("Delete NOT Successful")
+            println(red +"Delete NOT Successful")
         }
     }
 }
@@ -155,9 +158,9 @@ fun archiveArtist() {
         val indexToArchive = readNextInt("Enter the index of the artist to archive: ")
         //pass the index of the artist to ArtistAPI for archiving and check for success.
         if (artistAPI.archiveArtist(indexToArchive)) {
-            println("Archive Successful!")
+            println(green +"Archive Successful!")
         } else {
-            println("Archive NOT Successful")
+            println(red +"Archive NOT Successful")
         }
     }
 }
@@ -166,7 +169,7 @@ fun save() {
     try {
         artistAPI.store()
     } catch (e: Exception) {
-        System.err.println("Error writing to file: $e")
+        System.err.println(red +"Error writing to file: $e")
     }
 }
 
@@ -174,21 +177,21 @@ fun load() {
     try {
         artistAPI.load()
     } catch (e: Exception) {
-        System.err.println("Error reading from file: $e")
+        System.err.println(red +"Error reading from file: $e")
     }
 }
 
 fun searchArtists() {
-    val searchName = readNextLine("Enter the name to search by: ")
+    val searchName = readNextLine(green +"Enter the name to search by: ")
     val searchResults = artistAPI.searchByName(searchName)
     if (searchResults.isEmpty()) {
-        println("No artists found")
+        println(red +"No artists found")
     } else {
         println(searchResults)
     }
 }
 
 fun exitApp(){
-    println("Exiting...bye")
+    println(red +"Exiting...bye")
     exit(0)
 }
