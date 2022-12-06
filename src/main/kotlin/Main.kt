@@ -1,10 +1,10 @@
 import controllers.ArtistAPI
+import models.Artefact
 import models.Artist
 import utils.ScannerInput
-import java.lang.System.exit
 import mu.KotlinLogging
 import persistence.JSONSerializer
-import persistence.XMLSerializer
+import utils.ScannerInput.readNextChar
 import utils.ScannerInput.readNextInt
 import utils.ScannerInput.readNextLine
 import java.io.File
@@ -24,21 +24,41 @@ fun main(args: Array<String>) {
 
 fun mainMenu() : Int {
     return ScannerInput.readNextInt( yellow +""" 
-         > ----------------------------------
-         > |          GALLERY APP           |
-         > ----------------------------------
-         > | ARTIST MENU                    |
-         > |   1)  Add an artist            |
-         > |   2)  List all artists         |
-         > |   3)  Update an artist         |
-         > |   4)  Delete an artist         |
-         > |   5)  Archive an artist        |
-         > |   6)  Search artist(by Name)   |
-         > ----------------------------------
-         > |   20) Save artists             |
-         > |   21) Load artists             |
-         > |   0) Exit                      |
-         > ----------------------------------
+         > ------------------------------------------------------------------
+         > |                          GALLERY APP                           |
+         > ------------------------------------------------------------------
+         > | ARTIST MENU                                                    |
+         > |   1)  Add an artist                                            |
+         > |   2)  List all artists                                         |
+         > |   3)  Update an artist                                         |
+         > |   4)  Delete an artist                                         |
+         > |   5)  Archive an artist                                        |
+         > ------------------------------------------------------------------
+         > | ARTEFACT MENU                                                  |
+         > |   6)  Add artefact to an artist                                |
+         > |   7)  Update artefact contents on an artist                    |
+         > |   8)  Delete artefact from an artist                           |
+         > |   9)  Mark artefact as complete/todo                           |
+         > ------------------------------------------------------------------
+         > | REPORT MENU FOR ARTISTS                                        |
+         > |   10) Search artist(by Name)                                   |
+         > |   11) ...                                                      |
+         > |   12) ...                                                      |
+         > |   13) ...                                                      |
+         > |   14) ...                                                      |
+         > ------------------------------------------------------------------
+         > | REPORT MENU FOR ARTEFACTS                                      |
+         > |   15) Search for all artefacts (by artefact description)       |
+         > |   16) List TODO Items                                          |
+         > |   17) ...                                                      |
+         > |   18) ...                                                      |
+         > |   19) ...                                                      |
+         > ------------------------------------------------------------------
+         > |   20) Save artists                                             |
+         > |   21) Load artists                                             |
+         > ------------------------------------------------------------------
+         > |   0) Exit                                                      |
+         > ------------------------------------------------------------------
          > ==>> """.trimMargin(">"))
 }
 
@@ -51,7 +71,14 @@ fun runMenu() {
             3  -> updateArtist()
             4  -> deleteArtist()
             5  -> archiveArtist()
-            6  -> searchArtists()
+            6 -> addArtefactToArtist()
+            7 -> updateArtefactContentsInArtist()
+            8 -> deleteAnArtefact()
+            9 -> markArtefactStatus()
+            10 -> searchArtists()
+            15 -> searchArtefacts()
+            16 -> listToDoArtefacts()
+            0 -> exitApp()
             20  -> save()
             21  -> load()
             0  -> exitApp()
@@ -191,7 +218,117 @@ fun searchArtists() {
     }
 }
 
-fun exitApp(){
-    println(red +"Exiting...bye")
-    exit(0)
+private fun askUserToChooseLivingArtist(): Artist? {
+    listLivingArtists()
+    if (artistAPI.numberOfLivingArtists() > 0) {
+        val artist = artistAPI.findArtist(readNextInt("\nEnter the id of the artist: "))
+        if (artist != null) {
+            if (artist.isArtistDeceased) {
+                println("Artist is NOT Living, they are Deceased")
+            } else {
+                return artist //chosen artist is Living
+            }
+        } else {
+            println("Artist id is not valid")
+        }
+    }
+    return null //selected artist is not Living
+}
+
+private fun addArtefactToArtist() {
+    val artist: Artist? = askUserToChooseLivingArtist()
+    if (artist != null) {
+        if (artist.addArtefact(Artefact(artefactId = readNextInt("\t Artefact Id: "), artefactName = readNextLine("\t Artefact Name: "), artefactType = readNextLine("\t Artefact Type: "), artefactCost = readNextLine("\t Artefact Cost:"), artefactYearMade = readNextLine("\t Artefact Year Made"), artefactPopularity = readNextInt("\t Artefact Popularity"))))
+            println("Add Successful!")
+        else println("Add NOT Successful")
+    }
+}
+
+private fun askUserToChooseArtefact(artist: Artist): Artefact? {
+    if (artist.numberOfArtefacts() > 0) {
+        print(artist.listArtefacts())
+        return artist.findOne(readNextInt("\nEnter the id of the item: "))
+    }
+    else{
+        println ("No items for chosen note")
+        return null
+    }
+}
+
+fun updateArtefactContentsInArtist() {
+    val artist: Artist? = askUserToChooseLivingArtist()
+    if (artist != null) {
+        val artefact: Artefact? = askUserToChooseArtefact(artist)
+        if (artefact != null) {
+            val newName = readNextLine("Enter new Name: ")
+            val newType = readNextLine("Enter new Type: ")
+            val newCost = readNextLine("Enter new Cost: ")
+            val newYearMade = readNextLine("Enter new Year Made: ")
+            val newPopularity = readNextInt("Enter new Popularity: ")
+            if (artist.update(artefact.artefactId, Artefact(artefactName = newName, artefactType = newType, artefactCost = newCost, artefactYearMade = newYearMade, artefactPopularity = newPopularity))) {
+                println("Artefact contents updated")
+            } else {
+                println("Artefact contents NOT updated")
+            }
+        } else {
+            println("Invalid Artefact Id")
+        }
+    }
+}
+
+fun deleteAnArtefact() {
+    val artist: Artist? = askUserToChooseLivingArtist()
+    if (artist != null) {
+        val artefact: Artefact? = askUserToChooseArtefact(artist)
+        if (artefact != null) {
+            val isDeleted = artist.delete(artefact.artefactId)
+            if (isDeleted) {
+                println("Delete Successful!")
+            } else {
+                println("Delete NOT Successful")
+            }
+        }
+    }
+}
+
+fun markArtefactStatus() {
+    val artist: Artist? = askUserToChooseLivingArtist()
+    if (artist != null) {
+        val artefact: Artefact? = askUserToChooseArtefact(artist)
+        if (artist != null) {
+            var changeStatus = 'X'
+            if (artefact != null) {
+                if (artefact.isArtefactSold) {
+                    changeStatus = readNextChar("The item is currently sold...do you want to mark it as unsold?")
+                    if ((changeStatus == 'Y') ||  (changeStatus == 'y'))
+                        artefact.isArtefactSold = false
+                } else {
+                    changeStatus = readNextChar("The item is currently unsold...do you want to mark it as Sold?")
+                    if ((changeStatus == 'Y') ||  (changeStatus == 'y'))
+                        artefact.isArtefactSold = true
+                }
+            }
+        }
+    }
+}
+
+fun searchArtefacts() {
+    val searchContents = readNextLine("Enter the artefact contents to search by: ")
+    val searchResults = artistAPI.searchArtefactByContents(searchContents)
+    if (searchResults.isEmpty()) {
+        println("No artefacts found")
+    } else {
+        println(searchResults)
+    }
+}
+
+fun listToDoArtefacts(){
+    if (artistAPI.numberOfToDoItems() > 0) {
+        println("Total Sold items: ${artistAPI.numberOfToDoItems()}")
+    }
+    println(artistAPI.listTodoItems())
+}
+
+fun exitApp() {
+    println(red + "Exiting...bye")
 }

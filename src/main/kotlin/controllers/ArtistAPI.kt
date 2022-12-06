@@ -1,6 +1,8 @@
 package controllers
 
 import models.Artist
+import utils.Utilities.formatListString
+import java.util.ArrayList
 import persistence.Serializer
 
 val yellow = "\u001B[33m"
@@ -116,6 +118,54 @@ class ArtistAPI(serializerType: Serializer) {
     //utility method to determine if an index is valid in a list.
     fun isValidListIndex(index: Int, list: List<Any>): Boolean {
         return (index >= 0 && index < list.size)
+    }
+
+    fun searchArtefactByContents(searchString: String): String {
+        return if (numberOfArtists() == 0) "No artists stored"
+        else {
+            var listOfArtists = ""
+            for (artist in artists) {
+                for (artefact in artist.artefacts) {
+                    if (artefact.artefactName.contains(searchString, ignoreCase = true)) {
+                        listOfArtists += "${artist.artistName}: ${artist.artistAge} \n\t${artefact}\n"
+                    }
+                }
+            }
+            if (listOfArtists == "") "No artefacts found for: $searchString"
+            else listOfArtists
+        }
+    }
+
+    // ----------------------------------------------
+    //  LISTING METHODS FOR ITEMS
+    // ----------------------------------------------
+    fun listTodoItems(): String =
+        if (numberOfArtists() == 0) "No artists stored"
+        else {
+            var listOfTodoItems = ""
+            for (artist in artists) {
+                for (artefact in artist.artefacts) {
+                    if (!artefact.isArtefactSold) {
+                        listOfTodoItems += artist.artistName + ": " + artefact.artefactName + "\n"
+                    }
+                }
+            }
+            listOfTodoItems
+        }
+
+    // ----------------------------------------------
+    //  COUNTING METHODS FOR ITEMS
+    // ----------------------------------------------
+    fun numberOfToDoItems(): Int {
+        var numberOfToDoItems = 0
+        for (artist in artists) {
+            for (artefacts in artist.artefacts) {
+                if (!artefacts.isArtefactSold) {
+                    numberOfToDoItems++
+                }
+            }
+        }
+        return numberOfToDoItems
     }
 
 }

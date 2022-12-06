@@ -7,6 +7,8 @@
       <artistMovement>Cubism</artistMovement>
       <artistPopularity>5</artistPopularity>
       <isArtistDeceased>true</isArtistDeceased>
+      <artefacts class="linked-hash-set"/>
+      <lastArtefactId>0</lastArtefactId>
     </models.Artist>
     <models.Artist>
       <artistName>Salvador Dali</artistName>
@@ -15,6 +17,8 @@
       <artistMovement>Surrealism</artistMovement>
       <artistPopularity>5</artistPopularity>
       <isArtistDeceased>true</isArtistDeceased>
+      <artefacts class="linked-hash-set"/>
+      <lastArtefactId>0</lastArtefactId>
     </models.Artist>
     <models.Artist>
       <artistName>Vincent Van Gogh</artistName>
@@ -23,6 +27,8 @@
       <artistMovement>Post-Impressionism</artistMovement>
       <artistPopularity>5</artistPopularity>
       <isArtistDeceased>true</isArtistDeceased>
+      <artefacts class="linked-hash-set"/>
+      <lastArtefactId>0</lastArtefactId>
     </models.Artist>
   </list>
 </object-stream>
