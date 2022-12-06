@@ -8,49 +8,28 @@ class ArtistAPI(serializerType: Serializer) {
     private var serializer: Serializer = serializerType
     private var artists = ArrayList<Artist>()
 
+    private fun formatListString(artistsToFormat : List<Artist>) :String =
+        artistsToFormat
+            .joinToString (separator = "\n") { artist ->
+                artists.indexOf(artist).toString() + ": " + artist.toString()
+            }
+
     fun add(artist: Artist): Boolean {
         return artists.add(artist)
     }
 
-    fun listAllArtists(): String {
-        return if (artists.isEmpty()) {
-            "No artists stored"
-        } else {
-            var listOfArtists = ""
-            for (i in artists.indices) {
-                listOfArtists += "${i}: ${artists[i]} \n"
-            }
-            listOfArtists
-        }
-    }
+    fun listAllArtists(): String =
+        if  (artists.isEmpty()) "No artists stored"
+        else artists.joinToString (separator = "\n") { artist ->
+            artists.indexOf(artist).toString() + ": " + artist.toString() }
 
-    fun listLivingArtists(): String {
-        return if (numberOfLivingArtists() == 0) {
-            "No living artists stored"
-        } else {
-            var listOfLivingArtists = ""
-            for (artist in artists) {
-                if (!artist.isArtistDeceased) {
-                    listOfLivingArtists += "${artists.indexOf(artist)}: $artist \n"
-                }
-            }
-            listOfLivingArtists
-        }
-    }
+    fun listLivingArtists(): String =
+        if  (numberOfLivingArtists() == 0)  "No living artists stored"
+        else formatListString(artists.filter { artist -> !artist.isArtistDeceased})
 
-    fun listDeceasedArtists(): String {
-        return if (numberOfDeceasedArtists() == 0) {
-            "No deceased artists stored"
-        } else {
-            var listOfDeceasedArtists = ""
-            for (artist in artists) {
-                if (artist.isArtistDeceased) {
-                    listOfDeceasedArtists += "${artists.indexOf(artist)}: $artist \n"
-                }
-            }
-            listOfDeceasedArtists
-        }
-    }
+    fun listDeceasedArtists(): String =
+        if  (numberOfDeceasedArtists() == 0) "No deceased artists stored"
+        else formatListString(artists.filter { artist -> artist.isArtistDeceased})
 
     fun numberOfDeceasedArtists(): Int = artists.count { artist: Artist -> artist.isArtistDeceased }
 
