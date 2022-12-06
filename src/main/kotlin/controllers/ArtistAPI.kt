@@ -12,17 +12,10 @@ class ArtistAPI(serializerType: Serializer) {
         return artists.add(artist)
     }
 
-    fun listAllArtists(): String {
-        return if (artists.isEmpty()) {
-            "No artists stored"
-        } else {
-            var listOfArtists = ""
-            for (i in artists.indices) {
-                listOfArtists += "${i}: ${artists[i]} \n"
-            }
-            listOfArtists
-        }
-    }
+    fun listAllArtists(): String =
+        if  (artists.isEmpty()) "No artists stored"
+        else artists.joinToString (separator = "\n") { artist ->
+            artists.indexOf(artist).toString() + ": " + artist.toString() }
 
     fun listLivingArtists(): String {
         return if (numberOfLivingArtists() == 0) {
