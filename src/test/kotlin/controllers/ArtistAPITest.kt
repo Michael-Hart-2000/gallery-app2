@@ -328,4 +328,36 @@ class ArtistAPITest {
             assertTrue(populatedArtists!!.findArtist(1)!!.isArtistDeceased)
         }
     }
+
+    @Nested
+    inner class CountingMethods {
+
+        @Test
+        fun numberOfArtistsCalculatedCorrectly() {
+            assertEquals(5, populatedArtists!!.numberOfArtists())
+            assertEquals(0, emptyArtists!!.numberOfArtists())
+        }
+
+        @Test
+        fun numberOfDeceasedArtistsCalculatedCorrectly() {
+            assertEquals(5, populatedArtists!!.numberOfDeceasedArtists())
+            assertEquals(0, emptyArtists!!.numberOfDeceasedArtists())
+        }
+
+        @Test
+        fun numberOfLivingArtistsCalculatedCorrectly() {
+            assertEquals(0, populatedArtists!!.numberOfLivingArtists())
+            assertEquals(0, emptyArtists!!.numberOfLivingArtists())
+        }
+
+        @Test
+        fun numberOfArtistsByPopularityCalculatedCorrectly() {
+            assertEquals(0, populatedArtists!!.numberOfArtistsByPopularity(0))
+            assertEquals(0, populatedArtists!!.numberOfArtistsByPopularity(0))
+            assertEquals(0, populatedArtists!!.numberOfArtistsByPopularity(0))
+            assertEquals(0, populatedArtists!!.numberOfArtistsByPopularity(0))
+            assertEquals(0, populatedArtists!!.numberOfArtistsByPopularity(0))
+            assertEquals(0, emptyArtists!!.numberOfArtistsByPopularity(0))
+        }
+    }
 }
