@@ -20,8 +20,7 @@ class ArtistAPI(serializerType: Serializer) {
 
     fun listAllArtists(): String =
         if  (artists.isEmpty()) "No artists stored"
-        else artists.joinToString (separator = "\n") { artist ->
-            artists.indexOf(artist).toString() + ": " + artist.toString() }
+        else formatListString(artists)
 
     fun listLivingArtists(): String =
         if  (numberOfLivingArtists() == 0)  "No living artists stored"
@@ -33,32 +32,15 @@ class ArtistAPI(serializerType: Serializer) {
 
     fun numberOfDeceasedArtists(): Int = artists.count { artist: Artist -> artist.isArtistDeceased }
 
-    fun numberOfLivingArtists(): Int {
-        return artists.stream()
-            .filter{artist: Artist -> !artist.isArtistDeceased}
-            .count()
-            .toInt()
-    }
+    fun numberOfLivingArtists(): Int = artists.count{artist: Artist -> !artist.isArtistDeceased}
 
-    fun listArtistsBySelectedPopularity(popularity: Int): String {
-        return if (artists.isEmpty()) {
-            "No artists stored"
-        } else {
-            var listOfArtists = ""
-            for (i in artists.indices) {
-                if (artists[i].artistPopularity == popularity) {
-                    listOfArtists +=
-                        """$i: ${artists[i]}
-                        """.trimIndent()
-                }
-            }
-            if (listOfArtists.equals("")) {
-                "No artists with popularity: $popularity"
-            } else {
-                "${numberOfArtistsByPopularity(popularity)} artists with popularity $popularity: $listOfArtists"
-            }
+    fun listArtistsBySelectedPopularity(popularity: Int): String =
+        if (artists.isEmpty()) "No artists stored"
+        else {
+            val listOfArtists = formatListString(artists.filter{ artist -> artist.artistPopularity == popularity})
+            if (listOfArtists.equals("")) "No artists with popularity: $popularity"
+            else "${numberOfArtistsByPopularity(popularity)} artists with popularity $popularity: $listOfArtists"
         }
-    }
 
     fun numberOfArtistsByPopularity(priority: Int): Int = artists.count { p: Artist -> p.artistPopularity == priority }
 
@@ -102,6 +84,10 @@ class ArtistAPI(serializerType: Serializer) {
     fun isValidIndex(index: Int) :Boolean{
         return isValidListIndex(index, artists);
     }
+
+    fun searchByName (searchString : String) =
+        formatListString(
+            artists.filter { artist -> artist.artistName.contains(searchString, ignoreCase = true) })
 
     @Throws(Exception::class)
     fun load() {
