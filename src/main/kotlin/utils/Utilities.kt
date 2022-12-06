@@ -11,11 +11,10 @@ object Utilities {
     @JvmStatic
     fun formatListString(artistsToFormat: List<Artist>): String =
         artistsToFormat
-            .joinToString(separator = "\n") { artist ->  "$artist" }
+            .joinToString(separator = "\n") { artist -> "$artist" }
 
     @JvmStatic
     fun formatSetString(artefactsToFormat: Set<Artefact>): String =
         artefactsToFormat
-            .joinToString(separator = "\n") { artefact ->  "\t$artefact" }
-
+            .joinToString(separator = "\n") { artefact -> "\t$artefact" }
 }

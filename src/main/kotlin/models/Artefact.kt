@@ -7,12 +7,12 @@ data class Artefact(
     var artefactCost: String,
     var artefactYearMade: String,
     var artefactPopularity: Int,
-    var isArtefactSold: Boolean = false){
+    var isArtefactSold: Boolean = false
+) {
 
     override fun toString() =
         if (isArtefactSold)
             "${artefactId}Id: $artefactName (Complete)"
         else
             "${artefactId}Id: $artefactName (TODO)"
-
 }

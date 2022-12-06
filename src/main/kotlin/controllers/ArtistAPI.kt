@@ -1,22 +1,18 @@
 package controllers
 
 import models.Artist
-import utils.Utilities.formatListString
-import java.util.ArrayList
 import persistence.Serializer
 
-val yellow = "\u001B[33m"
-val red = "\u001b[31m"
-val green = "\u001B[32m"
+const val red = "\u001b[31m"
 
 class ArtistAPI(serializerType: Serializer) {
 
     private var serializer: Serializer = serializerType
     private var artists = ArrayList<Artist>()
 
-    private fun formatListString(artistsToFormat : List<Artist>) :String =
+    private fun formatListString(artistsToFormat: List<Artist>): String =
         artistsToFormat
-            .joinToString (separator = "\n") { artist ->
+            .joinToString(separator = "\n") { artist ->
                 artists.indexOf(artist).toString() + ": " + artist.toString()
             }
 
@@ -25,26 +21,26 @@ class ArtistAPI(serializerType: Serializer) {
     }
 
     fun listAllArtists(): String =
-        if  (artists.isEmpty()) red + "No artists stored"
+        if (artists.isEmpty()) red + "No artists stored"
         else formatListString(artists)
 
     fun listLivingArtists(): String =
-        if  (numberOfLivingArtists() == 0)red +  "No living artists stored"
-        else formatListString(artists.filter { artist -> !artist.isArtistDeceased})
+        if (numberOfLivingArtists() == 0)red + "No living artists stored"
+        else formatListString(artists.filter { artist -> !artist.isArtistDeceased })
 
     fun listDeceasedArtists(): String =
-        if  (numberOfDeceasedArtists() == 0)red + "No deceased artists stored"
-        else formatListString(artists.filter { artist -> artist.isArtistDeceased})
+        if (numberOfDeceasedArtists() == 0)red + "No deceased artists stored"
+        else formatListString(artists.filter { artist -> artist.isArtistDeceased })
 
     fun numberOfDeceasedArtists(): Int = artists.count { artist: Artist -> artist.isArtistDeceased }
 
-    fun numberOfLivingArtists(): Int = artists.count{artist: Artist -> !artist.isArtistDeceased}
+    fun numberOfLivingArtists(): Int = artists.count { artist: Artist -> !artist.isArtistDeceased }
 
     fun listArtistsBySelectedPopularity(popularity: Int): String =
         if (artists.isEmpty())red + "No artists stored"
         else {
-            val listOfArtists = formatListString(artists.filter{ artist -> artist.artistPopularity == popularity})
-            if (listOfArtists.equals(""))red + "No artists with popularity: $popularity"
+            val listOfArtists = formatListString(artists.filter { artist -> artist.artistPopularity == popularity })
+            if (listOfArtists == "")red + "No artists with popularity: $popularity"
             else "${numberOfArtistsByPopularity(popularity)} artists with popularity $popularity: $listOfArtists"
         }
 
@@ -57,10 +53,10 @@ class ArtistAPI(serializerType: Serializer) {
     }
 
     fun updateArtist(indexToUpdate: Int, artist: Artist?): Boolean {
-        //find the artist object by the index number
+        // find the artist object by the index number
         val foundArtist = findArtist(indexToUpdate)
 
-        //if the artist exists, use the artist details passed as parameters to update the found artist in the ArrayList.
+        // if the artist exists, use the artist details passed as parameters to update the found artist in the ArrayList.
         if ((foundArtist != null) && (artist != null)) {
             foundArtist.artistName = artist.artistName
             foundArtist.artistPopularity = artist.artistPopularity
@@ -72,7 +68,7 @@ class ArtistAPI(serializerType: Serializer) {
             return true
         }
 
-        //if the artist was not found, return false, indicating that the update was not successful
+        // if the artist was not found, return false, indicating that the update was not successful
         return false
     }
 
@@ -87,13 +83,14 @@ class ArtistAPI(serializerType: Serializer) {
         return false
     }
 
-    fun isValidIndex(index: Int) :Boolean{
-        return isValidListIndex(index, artists);
+    fun isValidIndex(index: Int): Boolean {
+        return isValidListIndex(index, artists)
     }
 
-    fun searchByName (searchString : String) =
+    fun searchByName(searchString: String) =
         formatListString(
-            artists.filter { artist -> artist.artistName.contains(searchString, ignoreCase = true) })
+            artists.filter { artist -> artist.artistName.contains(searchString, ignoreCase = true) }
+        )
 
     @Throws(Exception::class)
     fun load() {
@@ -115,8 +112,8 @@ class ArtistAPI(serializerType: Serializer) {
         } else null
     }
 
-    //utility method to determine if an index is valid in a list.
-    fun isValidListIndex(index: Int, list: List<Any>): Boolean {
+    // utility method to determine if an index is valid in a list.
+    private fun isValidListIndex(index: Int, list: List<Any>): Boolean {
         return (index >= 0 && index < list.size)
     }
 
@@ -167,5 +164,4 @@ class ArtistAPI(serializerType: Serializer) {
         }
         return numberOfToDoItems
     }
-
 }
