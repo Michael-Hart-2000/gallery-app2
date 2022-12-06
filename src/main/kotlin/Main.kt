@@ -71,9 +71,34 @@ fun addArtist(){
     }
 }
 
-fun listArtists(){
-    //logger.info { "listArtists() function invoked" }
+fun listArtists() {
+    if (artistAPI.numberOfArtists() > 0) {
+        val option = readNextInt(
+            """
+                  > --------------------------------
+                  > |   1) View ALL artists        |
+                  > |   2) View Living artists     |
+                  > |   3) View Deceased artists   |
+                  > --------------------------------
+         > ==>> """.trimMargin(">"))
+
+        when (option) {
+            1 -> listAllArtists();
+            2 -> listLivingArtists();
+            3 -> listDeceasedArtists();
+            else -> println("Invalid option entered: " + option);
+        }
+    } else {
+        println("Option Invalid - No artists stored");
+    }
+}
+
+fun listAllArtists() {
     println(artistAPI.listAllArtists())
+}
+
+fun listDeceasedArtists() {
+    println(artistAPI.listDeceasedArtists())
 }
 
 fun updateArtist() {
