@@ -8,6 +8,12 @@ class ArtistAPI(serializerType: Serializer) {
     private var serializer: Serializer = serializerType
     private var artists = ArrayList<Artist>()
 
+    private fun formatListString(artistsToFormat : List<Artist>) :String =
+        artistsToFormat
+            .joinToString (separator = "\n") { artist ->
+                artists.indexOf(artist).toString() + ": " + artist.toString()
+            }
+
     fun add(artist: Artist): Boolean {
         return artists.add(artist)
     }
@@ -31,19 +37,9 @@ class ArtistAPI(serializerType: Serializer) {
         }
     }
 
-    fun listDeceasedArtists(): String {
-        return if (numberOfDeceasedArtists() == 0) {
-            "No deceased artists stored"
-        } else {
-            var listOfDeceasedArtists = ""
-            for (artist in artists) {
-                if (artist.isArtistDeceased) {
-                    listOfDeceasedArtists += "${artists.indexOf(artist)}: $artist \n"
-                }
-            }
-            listOfDeceasedArtists
-        }
-    }
+    fun listDeceasedArtists(): String =
+        if  (numberOfDeceasedArtists() == 0) "No deceased artists stored"
+        else formatListString(artists.filter { artist -> artist.isArtistDeceased})
 
     fun numberOfDeceasedArtists(): Int = artists.count { artist: Artist -> artist.isArtistDeceased }
 
