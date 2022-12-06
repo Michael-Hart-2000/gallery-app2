@@ -52,26 +52,13 @@ class ArtistAPI(serializerType: Serializer) {
         }
     }
 
-    fun numberOfDeceasedArtists(): Int {
-        //helper method to determine how many deceased artists there are
-        var counter = 0
-        for (artist in artists) {
-            if (artist.isArtistDeceased) {
-                counter++
-            }
-        }
-        return counter
-    }
+    fun numberOfDeceasedArtists(): Int = artists.count { artist: Artist -> artist.isArtistDeceased }
 
     fun numberOfLivingArtists(): Int {
-        //helper method to determine how many living artists there are
-        var counter = 0
-        for (artist in artists) {
-            if (!artist.isArtistDeceased) {
-                counter++
-            }
-        }
-        return counter
+        return artists.stream()
+            .filter{artist: Artist -> !artist.isArtistDeceased}
+            .count()
+            .toInt()
     }
 
     fun listArtistsBySelectedPopularity(popularity: Int): String {
@@ -94,15 +81,7 @@ class ArtistAPI(serializerType: Serializer) {
         }
     }
 
-    fun numberOfArtistsByPopularity(popularity: Int): Int {
-        var counter = 0
-        for (artist in artists) {
-            if (artist.artistPopularity == popularity) {
-                counter++
-            }
-        }
-        return counter
-    }
+    fun numberOfArtistsByPopularity(priority: Int): Int = artists.count { p: Artist -> p.artistPopularity == priority }
 
     fun deleteArtist(indexToDelete: Int): Artist? {
         return if (isValidListIndex(indexToDelete, artists)) {
