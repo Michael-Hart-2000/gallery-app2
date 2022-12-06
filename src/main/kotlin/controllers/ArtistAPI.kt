@@ -101,6 +101,12 @@ class ArtistAPI {
         return counter
     }
 
+    fun deleteArtist(indexToDelete: Int): Artist? {
+        return if (isValidListIndex(indexToDelete, artists)) {
+            artists.removeAt(indexToDelete)
+        } else null
+    }
+
     fun numberOfArtists(): Int {
         return artists.size
     }

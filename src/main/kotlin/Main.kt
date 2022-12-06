@@ -70,7 +70,19 @@ fun updateArtist(){
 }
 
 fun deleteArtist(){
-    logger.info { "deleteArtist() function invoked" }
+    //logger.info { "deleteArtists() function invoked" }
+    listArtists()
+    if (artistAPI.numberOfArtists() > 0) {
+        //only ask the user to choose the artist to delete if artists exist
+        val indexToDelete = readNextInt("Enter the index of the artist to delete: ")
+        //pass the index of the artist to ArtistAPI for deleting and check for success.
+        val artistToDelete = artistAPI.deleteArtist(indexToDelete)
+        if (artistToDelete != null) {
+            println("Delete Successful! Deleted artist: ${artistToDelete.artistName}")
+        } else {
+            println("Delete NOT Successful")
+        }
+    }
 }
 
 fun exitApp(){

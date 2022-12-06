@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test
 import java.util.*
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+import kotlin.test.assertNull
 
 class ArtistAPITest {
 
@@ -175,6 +176,26 @@ class ArtistAPITest {
             assertFalse(popularity4String.contains("Leonardo Da Vinci"))
             assertFalse(popularity4String.contains("Rembrandt Van Rijn"))
             assertFalse(popularity4String.contains("Salvador Dali"))
+        }
+    }
+
+    @Nested
+    inner class DeleteArtists {
+
+        @Test
+        fun `deleting an Artist that does not exist, returns null`() {
+            assertNull(emptyArtists!!.deleteArtist(0))
+            assertNull(populatedArtists!!.deleteArtist(-1))
+            assertNull(populatedArtists!!.deleteArtist(5))
+        }
+
+        @Test
+        fun `deleting an artist that exists delete and returns deleted object`() {
+            assertEquals(5, populatedArtists!!.numberOfArtists())
+            assertEquals(SalvadorDali, populatedArtists!!.deleteArtist(4))
+            assertEquals(4, populatedArtists!!.numberOfArtists())
+            assertEquals(PabloPicasso, populatedArtists!!.deleteArtist(0))
+            assertEquals(3, populatedArtists!!.numberOfArtists())
         }
     }
 }
