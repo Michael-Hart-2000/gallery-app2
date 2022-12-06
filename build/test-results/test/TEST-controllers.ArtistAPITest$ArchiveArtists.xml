@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="controllers.ArtistAPITest$ArchiveArtists" tests="3" skipped="0" failures="0" errors="0" timestamp="2022-12-06T01:41:54" hostname="DESKTOP-427PK45" time="0.008">
-  <properties/>
-  <testcase name="archiving a living artist that exists returns true and archives()" classname="controllers.ArtistAPITest$ArchiveArtists" time="0.0"/>
-  <testcase name="archiving an artist that does not exist returns false()" classname="controllers.ArtistAPITest$ArchiveArtists" time="0.005"/>
-  <testcase name="archiving an already archived artist returns false()" classname="controllers.ArtistAPITest$ArchiveArtists" time="0.001"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
