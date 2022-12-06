@@ -1,11 +1,8 @@
 package controllers
 
 import models.Artist
-import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.assertTrue
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Nested
-import org.junit.jupiter.api.Test
 import persistence.XMLSerializer
 import persistence.JSONSerializer
 import java.io.File
@@ -360,4 +357,43 @@ class ArtistAPITest {
             assertEquals(0, emptyArtists!!.numberOfArtistsByPopularity(0))
         }
     }
+
+    @Nested
+    inner class SearchMethods {
+
+        @Test
+        fun `search artists by name returns no artists when no artists with that name exist`() {
+            //Searching a populated collection for a name that doesn't exist.
+            Assertions.assertEquals(5, populatedArtists!!.numberOfArtists())
+            val searchResults = populatedArtists!!.searchByName("no results expected")
+            assertTrue(searchResults.isEmpty())
+
+            //Searching an empty collection
+            Assertions.assertEquals(0, emptyArtists!!.numberOfArtists())
+            assertTrue(emptyArtists!!.searchByName("").isEmpty())
+        }
+
+        @Test
+        fun `search artists by name returns artists when artists with that name exist`() {
+            Assertions.assertEquals(5, populatedArtists!!.numberOfArtists())
+
+            //Searching a populated collection for a full name that exists (case matches exactly)
+            var searchResults = populatedArtists!!.searchByName("Code App")
+            assertFalse(searchResults.contains("Code App"))
+            assertFalse(searchResults.contains("Test App"))
+
+            //Searching a populated collection for a partial name that exists (case matches exactly)
+            searchResults = populatedArtists!!.searchByName("App")
+            assertFalse(searchResults.contains("Code App"))
+            assertFalse(searchResults.contains("Test App"))
+            assertFalse(searchResults.contains("Swim - Pool"))
+
+            //Searching a populated collection for a partial name that exists (case doesn't match)
+            searchResults = populatedArtists!!.searchByName("aPp")
+            assertFalse(searchResults.contains("Code App"))
+            assertFalse(searchResults.contains("Test App"))
+            assertFalse(searchResults.contains("Swim - Pool"))
+        }
+    }
+
 }

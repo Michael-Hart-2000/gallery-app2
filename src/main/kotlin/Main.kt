@@ -30,6 +30,7 @@ fun mainMenu() : Int {
          > |   3)  Update an artist         |
          > |   4)  Delete an artist         |
          > |   5)  Archive an artist        |
+         > |   6)  Search artist(by Name)   |
          > |   20) Save artists             |
          > |   21) Load artists             |
          > ----------------------------------
@@ -47,6 +48,7 @@ fun runMenu() {
             3  -> updateArtist()
             4  -> deleteArtist()
             5  -> archiveArtist()
+            6  -> searchArtists()
             20  -> save()
             21  -> load()
             0  -> exitApp()
@@ -173,6 +175,16 @@ fun load() {
         artistAPI.load()
     } catch (e: Exception) {
         System.err.println("Error reading from file: $e")
+    }
+}
+
+fun searchArtists() {
+    val searchName = readNextLine("Enter the name to search by: ")
+    val searchResults = artistAPI.searchByName(searchName)
+    if (searchResults.isEmpty()) {
+        println("No artists found")
+    } else {
+        println(searchResults)
     }
 }
 

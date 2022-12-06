@@ -103,6 +103,10 @@ class ArtistAPI(serializerType: Serializer) {
         return isValidListIndex(index, artists);
     }
 
+    fun searchByName (searchString : String) =
+        formatListString(
+            artists.filter { artist -> artist.artistName.contains(searchString, ignoreCase = true) })
+
     @Throws(Exception::class)
     fun load() {
         artists = serializer.read() as ArrayList<Artist>
