@@ -71,6 +71,36 @@ class ArtistAPI {
         return counter
     }
 
+    fun listArtistsBySelectedPopularity(popularity: Int): String {
+        return if (artists.isEmpty()) {
+            "No artists stored"
+        } else {
+            var listOfArtists = ""
+            for (i in artists.indices) {
+                if (artists[i].artistPopularity == popularity) {
+                    listOfArtists +=
+                        """$i: ${artists[i]}
+                        """.trimIndent()
+                }
+            }
+            if (listOfArtists.equals("")) {
+                "No artists with popularity: $popularity"
+            } else {
+                "${numberOfArtistsByPopularity(popularity)} artists with popularity $popularity: $listOfArtists"
+            }
+        }
+    }
+
+    fun numberOfArtistsByPopularity(popularity: Int): Int {
+        var counter = 0
+        for (artist in artists) {
+            if (artist.artistPopularity == popularity) {
+                counter++
+            }
+        }
+        return counter
+    }
+
     fun numberOfArtists(): Int {
         return artists.size
     }
