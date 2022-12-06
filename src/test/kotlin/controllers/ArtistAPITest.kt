@@ -6,6 +6,9 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import persistence.XMLSerializer
+import persistence.JSONSerializer
+import java.io.File
 import java.util.*
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -18,8 +21,8 @@ class ArtistAPITest {
     private var LeonardoDaVinci: Artist? = null
     private var RembrandtVanRijn: Artist? = null
     private var SalvadorDali: Artist? = null
-    private var populatedArtists: ArtistAPI? = ArtistAPI()
-    private var emptyArtists: ArtistAPI? = ArtistAPI()
+    private var populatedArtists: ArtistAPI? = ArtistAPI(XMLSerializer(File("artists.xml")))
+    private var emptyArtists: ArtistAPI? = ArtistAPI(XMLSerializer(File("artist.xml")))
 
     @BeforeEach
     fun setup() {
@@ -221,6 +224,85 @@ class ArtistAPITest {
             assertEquals("Salvador Dali", populatedArtists!!.findArtist(4)!!.artistName)
             assertEquals(5, populatedArtists!!.findArtist(4)!!.artistPopularity)
             assertEquals("Spain", populatedArtists!!.findArtist(4)!!.artistCountry)
+        }
+    }
+    @Nested
+    inner class PersistenceTests {
+
+        @Test
+        fun `saving and loading an empty collection in XML doesn't crash app`() {
+            // Saving an empty artists.XML file.
+            val storingArtists = ArtistAPI(XMLSerializer(File("artists.xml")))
+            storingArtists.store()
+
+            //Loading the empty artists.xml file into a new object
+            val loadedArtists = ArtistAPI(XMLSerializer(File("artists.xml")))
+            loadedArtists.load()
+
+            //Comparing the source of the artists (storingArtists) with the XML loaded artists (loadedArtists)
+            assertEquals(0, storingArtists.numberOfArtists())
+            assertEquals(0, loadedArtists.numberOfArtists())
+            assertEquals(storingArtists.numberOfArtists(), loadedArtists.numberOfArtists())
+        }
+
+        @Test
+        fun `saving and loading an loaded collection in XML doesn't loose data`() {
+            // Storing 3 artists to the artists.XML file.
+            val storingArtists = ArtistAPI(XMLSerializer(File("artists.xml")))
+            storingArtists.add(PabloPicasso!!)
+            storingArtists.add(SalvadorDali!!)
+            storingArtists.add(VincentVanGough!!)
+            storingArtists.store()
+
+            //Loading artists.xml into a different collection
+            val loadedArtists = ArtistAPI(XMLSerializer(File("artists.xml")))
+            loadedArtists.load()
+
+            //Comparing the source of the artists (storingArtists) with the XML loaded artists (loadedArtists)
+            assertEquals(3, storingArtists.numberOfArtists())
+            assertEquals(3, loadedArtists.numberOfArtists())
+            assertEquals(storingArtists.numberOfArtists(), loadedArtists.numberOfArtists())
+            assertEquals(storingArtists.findArtist(0), loadedArtists.findArtist(0))
+            assertEquals(storingArtists.findArtist(1), loadedArtists.findArtist(1))
+            assertEquals(storingArtists.findArtist(2), loadedArtists.findArtist(2))
+        }
+
+        @Test
+        fun `saving and loading an empty collection in JSON doesn't crash app`() {
+            // Saving an empty artists.json file.
+            val storingArtists = ArtistAPI(JSONSerializer(File("artists.json")))
+            storingArtists.store()
+
+            //Loading the empty artists.json file into a new object
+            val loadedArtists = ArtistAPI(JSONSerializer(File("artists.json")))
+            loadedArtists.load()
+
+            //Comparing the source of the artists (storingArtists) with the json loaded artists (loadedArtists)
+            assertEquals(0, storingArtists.numberOfArtists())
+            assertEquals(0, loadedArtists.numberOfArtists())
+            assertEquals(storingArtists.numberOfArtists(), loadedArtists.numberOfArtists())
+        }
+
+        @Test
+        fun `saving and loading an loaded collection in JSON doesn't loose data`() {
+            // Storing 3 artists to the artists.json file.
+            val storingArtists = ArtistAPI(JSONSerializer(File("artists.json")))
+            storingArtists.add(PabloPicasso!!)
+            storingArtists.add(VincentVanGough!!)
+            storingArtists.add(LeonardoDaVinci!!)
+            storingArtists.store()
+
+            //Loading artists.json into a different collection
+            val loadedArtists = ArtistAPI(JSONSerializer(File("artists.json")))
+            loadedArtists.load()
+
+            //Comparing the source of the artists (storingArtists) with the json loaded artists (loadedArtists)
+            assertEquals(3, storingArtists.numberOfArtists())
+            assertEquals(3, loadedArtists.numberOfArtists())
+            assertEquals(storingArtists.numberOfArtists(), loadedArtists.numberOfArtists())
+            assertEquals(storingArtists.findArtist(0), loadedArtists.findArtist(0))
+            assertEquals(storingArtists.findArtist(1), loadedArtists.findArtist(1))
+            assertEquals(storingArtists.findArtist(2), loadedArtists.findArtist(2))
         }
     }
 }

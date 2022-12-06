@@ -1,8 +1,11 @@
 package controllers
 
 import models.Artist
+import persistence.Serializer
 
-class ArtistAPI {
+class ArtistAPI(serializerType: Serializer) {
+
+    private var serializer: Serializer = serializerType
     private var artists = ArrayList<Artist>()
 
     fun add(artist: Artist): Boolean {
@@ -129,6 +132,16 @@ class ArtistAPI {
 
     fun isValidIndex(index: Int) :Boolean{
         return isValidListIndex(index, artists);
+    }
+
+    @Throws(Exception::class)
+    fun load() {
+        artists = serializer.read() as ArrayList<Artist>
+    }
+
+    @Throws(Exception::class)
+    fun store() {
+        serializer.write(artists)
     }
 
     fun numberOfArtists(): Int {
