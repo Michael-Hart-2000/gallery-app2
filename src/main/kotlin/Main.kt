@@ -130,7 +130,7 @@ fun deleteArtist(){
     //logger.info { "deleteArtists() function invoked" }
     listArtists()
     if (artistAPI.numberOfArtists() > 0) {
-        //only ask the user to choose the artist to delete if artists exist
+        //only ask the user to choose the artist to remove if artists exist
         val indexToDelete = readNextInt("Enter the index of the artist to delete: ")
         //pass the index of the artist to ArtistAPI for deleting and check for success.
         val artistToDelete = artistAPI.deleteArtist(indexToDelete)
