@@ -17,7 +17,7 @@ import kotlin.test.assertNull
 class ArtistAPITest {
 
     private var PabloPicasso: Artist? = null
-    private var VincentVanGough: Artist? = null
+    private var VincentVanGogh: Artist? = null
     private var LeonardoDaVinci: Artist? = null
     private var RembrandtVanRijn: Artist? = null
     private var SalvadorDali: Artist? = null
@@ -27,8 +27,8 @@ class ArtistAPITest {
     @BeforeEach
     fun setup() {
         PabloPicasso = Artist("Pablo Picasso", 91, "Spain", artistMovement = "Cubism", artistPopularity = 5, true)
-        VincentVanGough = Artist(
-            "Vincent Van Gough",
+        VincentVanGogh = Artist(
+            "Vincent Van Gogh",
             37,
             "Netherlands",
             artistMovement = "Post-Impressionism",
@@ -43,7 +43,7 @@ class ArtistAPITest {
 
         //adding 5 Artists to the artists api
         populatedArtists!!.add(PabloPicasso!!)
-        populatedArtists!!.add(VincentVanGough!!)
+        populatedArtists!!.add(VincentVanGogh!!)
         populatedArtists!!.add(LeonardoDaVinci!!)
         populatedArtists!!.add(RembrandtVanRijn!!)
         populatedArtists!!.add(SalvadorDali!!)
@@ -52,7 +52,7 @@ class ArtistAPITest {
     @AfterEach
     fun tearDown() {
         PabloPicasso = null
-        VincentVanGough = null
+        VincentVanGogh = null
         LeonardoDaVinci = null
         RembrandtVanRijn = null
         SalvadorDali = null
@@ -96,7 +96,7 @@ class ArtistAPITest {
             assertEquals(5, populatedArtists!!.numberOfArtists())
             val artistsString = populatedArtists!!.listAllArtists().lowercase()
             assertFalse(artistsString.contains("Pablo Picasso"))
-            assertFalse(artistsString.contains("Vincent Van Gough"))
+            assertFalse(artistsString.contains("Vincent Van Gogh"))
             assertFalse(artistsString.contains("Leonardo Da Vinci"))
             assertFalse(artistsString.contains("Rembrandt Van Rijn"))
             assertFalse(artistsString.contains("Salvador Dali"))
@@ -104,7 +104,7 @@ class ArtistAPITest {
 
 
     @Test
-    fun `listLivingArtists returns no living aritsts stored when ArrayList is empty`() {
+    fun `listLivingArtists returns no living artists stored when ArrayList is empty`() {
         assertEquals(0, emptyArtists!!.numberOfLivingArtists())
         assertTrue(
             emptyArtists!!.listLivingArtists().lowercase().contains("no living artists")
@@ -116,7 +116,7 @@ class ArtistAPITest {
         assertEquals(0, populatedArtists!!.numberOfLivingArtists())
         val livingArtistsString = populatedArtists!!.listLivingArtists().lowercase()
         assertFalse(livingArtistsString.contains("Pablo Picasso"))
-        assertFalse(livingArtistsString.contains("Vincent Van Gough"))
+        assertFalse(livingArtistsString.contains("Vincent Van Gogh"))
         assertFalse(livingArtistsString.contains("Leonardo Da Vinci"))
         assertFalse(livingArtistsString.contains("Rembrandt Van Rijn"))
         assertFalse(livingArtistsString.contains("Salvador Dali"))
@@ -135,7 +135,7 @@ class ArtistAPITest {
         assertEquals(5, populatedArtists!!.numberOfDeceasedArtists())
         val deceasedArtistsString = populatedArtists!!.listDeceasedArtists().lowercase(Locale.getDefault())
         assertFalse(deceasedArtistsString.contains("Pablo Picasso"))
-        assertFalse(deceasedArtistsString.contains("Vincent Van Gough"))
+        assertFalse(deceasedArtistsString.contains("Vincent Van Gogh"))
         assertFalse(deceasedArtistsString.contains("Leonardo Da Vinci"))
         assertFalse(deceasedArtistsString.contains("Rembrandt Van Rijn"))
         assertFalse(deceasedArtistsString.contains("Salvador Dali"))
@@ -165,7 +165,7 @@ class ArtistAPITest {
             assertFalse(popularity1String.contains("1 artist"))
             assertFalse(popularity1String.contains("popularity 1"))
             assertFalse(popularity1String.contains("Pablo Picasso"))
-            assertFalse(popularity1String.contains("Vincent Van Gough"))
+            assertFalse(popularity1String.contains("Vincent Van Gogh"))
             assertFalse(popularity1String.contains("Leonardo Da Vinci"))
             assertFalse(popularity1String.contains("Rembrandt Van Rijn"))
             assertFalse(popularity1String.contains("Salvador Dali"))
@@ -175,7 +175,7 @@ class ArtistAPITest {
             assertFalse(popularity4String.contains("2 artist"))
             assertFalse(popularity4String.contains("popularity 4"))
             assertFalse(popularity4String.contains("Pablo Picasso"))
-            assertFalse(popularity4String.contains("Vincent Van Gough"))
+            assertFalse(popularity4String.contains("Vincent Van Gogh"))
             assertFalse(popularity4String.contains("Leonardo Da Vinci"))
             assertFalse(popularity4String.contains("Rembrandt Van Rijn"))
             assertFalse(popularity4String.contains("Salvador Dali"))
@@ -251,7 +251,7 @@ class ArtistAPITest {
             val storingArtists = ArtistAPI(XMLSerializer(File("artists.xml")))
             storingArtists.add(PabloPicasso!!)
             storingArtists.add(SalvadorDali!!)
-            storingArtists.add(VincentVanGough!!)
+            storingArtists.add(VincentVanGogh!!)
             storingArtists.store()
 
             //Loading artists.xml into a different collection
@@ -288,7 +288,7 @@ class ArtistAPITest {
             // Storing 3 artists to the artists.json file.
             val storingArtists = ArtistAPI(JSONSerializer(File("artists.json")))
             storingArtists.add(PabloPicasso!!)
-            storingArtists.add(VincentVanGough!!)
+            storingArtists.add(VincentVanGogh!!)
             storingArtists.add(LeonardoDaVinci!!)
             storingArtists.store()
 
@@ -303,6 +303,29 @@ class ArtistAPITest {
             assertEquals(storingArtists.findArtist(0), loadedArtists.findArtist(0))
             assertEquals(storingArtists.findArtist(1), loadedArtists.findArtist(1))
             assertEquals(storingArtists.findArtist(2), loadedArtists.findArtist(2))
+        }
+    }
+
+    @Nested
+    inner class ArchiveArtists {
+        @Test
+        fun `archiving an artist that does not exist returns false`(){
+            assertFalse(populatedArtists!!.archiveArtist(6))
+            assertFalse(populatedArtists!!.archiveArtist(-1))
+            assertFalse(emptyArtists!!.archiveArtist(0))
+        }
+
+        @Test
+        fun `archiving an already archived artist returns false`(){
+            assertTrue(populatedArtists!!.findArtist(2)!!.isArtistDeceased)
+            assertFalse(populatedArtists!!.archiveArtist(2))
+        }
+
+        @Test
+        fun `archiving a living artist that exists returns true and archives`() {
+            assertTrue(populatedArtists!!.findArtist(1)!!.isArtistDeceased)
+            assertFalse(populatedArtists!!.archiveArtist(1))
+            assertTrue(populatedArtists!!.findArtist(1)!!.isArtistDeceased)
         }
     }
 }
