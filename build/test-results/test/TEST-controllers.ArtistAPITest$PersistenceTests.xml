@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="controllers.ArtistAPITest$PersistenceTests" tests="4" skipped="0" failures="0" errors="0" timestamp="2022-12-06T08:20:39" hostname="DESKTOP-41QCBQB" time="0.548">
+<testsuite name="controllers.ArtistAPITest$PersistenceTests" tests="4" skipped="0" failures="0" errors="0" timestamp="2022-12-06T01:41:53" hostname="DESKTOP-427PK45" time="0.315">
   <properties/>
-  <testcase name="saving and loading an empty collection in XML doesn't crash app()" classname="controllers.ArtistAPITest$PersistenceTests" time="0.454"/>
-  <testcase name="saving and loading an loaded collection in JSON doesn't loose data()" classname="controllers.ArtistAPITest$PersistenceTests" time="0.058"/>
-  <testcase name="saving and loading an loaded collection in XML doesn't loose data()" classname="controllers.ArtistAPITest$PersistenceTests" time="0.016"/>
-  <testcase name="saving and loading an empty collection in JSON doesn't crash app()" classname="controllers.ArtistAPITest$PersistenceTests" time="0.017"/>
+  <testcase name="saving and loading an empty collection in XML doesn't crash app()" classname="controllers.ArtistAPITest$PersistenceTests" time="0.256"/>
+  <testcase name="saving and loading an loaded collection in JSON doesn't loose data()" classname="controllers.ArtistAPITest$PersistenceTests" time="0.035"/>
+  <testcase name="saving and loading an loaded collection in XML doesn't loose data()" classname="controllers.ArtistAPITest$PersistenceTests" time="0.014"/>
+  <testcase name="saving and loading an empty collection in JSON doesn't crash app()" classname="controllers.ArtistAPITest$PersistenceTests" time="0.007"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
