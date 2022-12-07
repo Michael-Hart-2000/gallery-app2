@@ -38,7 +38,7 @@ fun mainMenu(): Int {
          > |   6)  Add artefact to an artist                                |
          > |   7)  Update artefact contents on an artist                    |
          > |   8)  Delete artefact from an artist                           |
-         > |   9)  Mark artefact as complete/todo                           |
+         > |   9)  Mark artefact as sold/unsold                             |
          > ------------------------------------------------------------------
          > | REPORT MENU FOR ARTISTS                                        |
          > |   10) Search artist(by Name)                                   |
@@ -95,7 +95,7 @@ fun addArtist() {
     val artistCountry = readNextLine(green + "Enter the country the artist is from: ")
     val artistMovement = readNextLine(green + "Enter the art movement the artist is associated with: ")
     val artistPopularity = readNextInt(green + "Enter the popularity of the artist (1-low, 2, 3, 4, 5-high): ")
-    val isAdded = artistAPI.add(Artist(artistName, artistAge, artistCountry, artistMovement, artistPopularity, true))
+    val isAdded = artistAPI.add(Artist(artistName, artistAge, artistCountry, artistMovement, artistPopularity, false))
 
     if (isAdded) {
         println(green + "Added Successfully")
