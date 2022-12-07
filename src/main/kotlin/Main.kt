@@ -1,4 +1,5 @@
 import controllers.ArtistAPI
+//import controllers.ArtefactsAPI
 import models.Artefact
 import models.Artist
 import mu.KotlinLogging
@@ -14,7 +15,7 @@ private val artistAPI = ArtistAPI(JSONSerializer(File("artists.json")))
 private val logger = KotlinLogging.logger {}
 
 val yellow = "\u001B[33m"
-val red = "\u001b[31m"
+const val red = "\u001b[31m"
 val green = "\u001B[32m"
 
 fun main(args: Array<String>) {
@@ -40,18 +41,18 @@ fun mainMenu(): Int {
          > |   8)  Delete artefact from an artist                           |
          > |   9)  Mark artefact as sold/unsold                             |
          > ------------------------------------------------------------------
-         > | REPORT MENU FOR ARTISTS                                        |
+         > | SEARCH MENU FOR ARTISTS                                        |
          > |   10) Search artist(by Name)                                   |
          > |   11) ...                                                      |
          > |   12) ...                                                      |
          > |   13) ...                                                      |
          > |   14) ...                                                      |
          > ------------------------------------------------------------------
-         > | REPORT MENU FOR ARTEFACTS                                      |
+         > | SEARCH MENU FOR ARTEFACTS                                      |
          > |   15) Search for all artefacts (by artefact description)       |
          > |   16) List TODO Items                                          |
-         > |   17) ...                                                      |
-         > |   18) ...                                                      |
+         > |   17) List All Artefacts                                       |
+         > |   18) Search for artefacts (by sold/unsold)                    |
          > |   19) ...                                                      |
          > ------------------------------------------------------------------
          > |   20) Save artists                                             |
@@ -131,6 +132,35 @@ fun listArtists() {
 fun listAllArtists() {
     println(artistAPI.listAllArtists())
 }
+
+/*fun listArtefacts() {
+    if (ArtefactsAPI.numberOfArtefacts() > 0) {
+        val option = readNextInt(
+            yellow +
+                    """
+                  > --------------------------------
+                  > |   1) View ALL artefacts      |
+                  > |   2) ...                     |
+                  > |   3) ...                     |
+                  > --------------------------------
+         > ==>> """.trimMargin(">")
+        )
+
+        when (option) {
+            1 -> listAllArtefacts()
+            //2 ->
+            //3 ->
+            else -> println(red + "Invalid option entered: " + option)
+        }
+    } else {
+        println(red + "Option Invalid - No artefacts stored")
+    }
+}
+
+fun listAllArtefacts() {
+    println(artistAPI.listAllArtefacts())
+}
+ */
 
 fun listDeceasedArtists() {
     println(artistAPI.listDeceasedArtists())
@@ -241,7 +271,7 @@ private fun askUserToChooseLivingArtist(): Artist? {
 private fun addArtefactToArtist() {
     val artist: Artist? = askUserToChooseLivingArtist()
     if (artist != null) {
-        if (artist.addArtefact(Artefact(artefactId = readNextInt("\t Artefact Id: "), artefactName = readNextLine("\t Artefact Name: "), artefactType = readNextLine("\t Artefact Type: "), artefactCost = readNextLine("\t Artefact Cost:"), artefactYearMade = readNextLine("\t Artefact Year Made"), artefactPopularity = readNextInt("\t Artefact Popularity"))))
+        if (artist.addArtefact(Artefact(artefactId = readNextInt("\t Artefact Id: "), artefactName = readNextLine("\t Artefact Name: "), artefactType = readNextLine("\t Artefact Type: "), artefactCost = readNextLine("\t Artefact Cost:"), artefactYearMade = readNextLine("\t Artefact Year Made: "), artefactPopularity = readNextInt("\t Artefact Popularity: "))))
             println("Add Successful!")
         else println("Add NOT Successful")
     }
@@ -250,9 +280,9 @@ private fun addArtefactToArtist() {
 private fun askUserToChooseArtefact(artist: Artist): Artefact? {
     if (artist.numberOfArtefacts() > 0) {
         print(artist.listArtefacts())
-        return artist.findOne(readNextInt("\nEnter the id of the item: "))
+        return artist.findOne(readNextInt("\nEnter the id of the artefact: "))
     } else {
-        println("No items for chosen note")
+        println("No artefacts for chosen artist")
         return null
     }
 }

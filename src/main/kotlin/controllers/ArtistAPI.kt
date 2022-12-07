@@ -134,7 +134,7 @@ class ArtistAPI(serializerType: Serializer) {
     }
 
     // ----------------------------------------------
-    //  LISTING METHODS FOR ITEMS
+    //  LISTING METHODS FOR ARTEFACTS
     // ----------------------------------------------
     fun listTodoItems(): String =
         if (numberOfArtists() == 0) "No artists stored"
@@ -151,7 +151,7 @@ class ArtistAPI(serializerType: Serializer) {
         }
 
     // ----------------------------------------------
-    //  COUNTING METHODS FOR ITEMS
+    //  COUNTING METHODS FOR ARTEFACTS
     // ----------------------------------------------
     fun numberOfToDoItems(): Int {
         var numberOfToDoItems = 0
@@ -165,3 +165,5 @@ class ArtistAPI(serializerType: Serializer) {
         return numberOfToDoItems
     }
 }
+
+

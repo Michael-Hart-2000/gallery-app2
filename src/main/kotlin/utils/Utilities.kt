@@ -1,7 +1,6 @@
 package utils
 
 import models.Artefact
-import models.Artist
 
 object Utilities {
 
@@ -9,7 +8,7 @@ object Utilities {
     //      name; we don't have to create an object of Utilities to use them.
 
     @JvmStatic
-    fun formatListString(artistsToFormat: List<Artist>): String =
+    fun formatListString(artistsToFormat: MutableSet<Artefact>): String =
         artistsToFormat
             .joinToString(separator = "\n") { artist -> "$artist" }
 

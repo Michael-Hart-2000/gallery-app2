@@ -1,6 +1,8 @@
 package models
 
+import controllers.red
 import utils.Utilities
+import utils.Utilities.formatListString
 
 data class Artist(
     var artistName: String,
